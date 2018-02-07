@@ -1,0 +1,20 @@
+{
+  "name": "typescript-study",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "concurrently \"npm run watch\" \"lite-server\"",
+    "watch": "webpack --config webpack.config.js --watch",
+    "start": "lite-server"
+  },
+  "author": "Bruno casotto",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^3.5.1",
+    "lite-server": "^2.3.0",
+    "ts-loader": "^3.4.0",
+    "typescript": "^2.7.1",
+    "webpack": "^3.10.0"
+  }
+}
