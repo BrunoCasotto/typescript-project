@@ -22,3 +22,51 @@ html {
     text-decoration: none; }
     html a:hover {
       text-decoration: none; }
+
+.container {
+  width: 100%; }
+  .container__row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center; }
+    .container__row__col {
+      width: 100%; }
+      .container__row__col--auto {
+        flex: 1; }
+      .container__row__col--md {
+        width: 50%; }
+      .container__row__col--sm {
+        width: 33.333%; }
+
+.button {
+  display: flex;
+  justify-content: center;
+  font-weight: 700;
+  overflow: hidden;
+  border-style: none;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.25;
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  border-radius: .25rem; }
+  .button--calm {
+    background-color: #C6D5E5;
+    color: #000; }
+  .button--dark {
+    background-color: #AAA7A7;
+    color: #000; }
+
+.header {
+  height: 100px; }
+
+.content {
+  border-top: solid 1px #AAA7A7;
+  background-color: #C6D5E5; }
+
+.image-grid {
+  padding: 20px 0 20px 0; }
+  .image-grid__image {
+    padding: 5px;
+    min-width: 300px; }

@@ -1,0 +1,27 @@
+
+.container {
+  width: 100%;
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    &__col {
+      width: 100%;
+
+      &--auto {
+        flex: 1;
+      }
+
+      &--md {
+        width: 50%;
+      }
+
+      &--sm {
+        width: 33.333%
+      }
+    }
+  }
+}

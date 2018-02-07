@@ -1,1 +1,23 @@
 @import "~_scss/base/reset";
+@import "~_scss/vars";
+@import "~_scss/libs/grid";
+@import "~_scss/libs/elements";
+
+.header {
+  height: 100px;
+}
+
+.content {
+  border-top: solid 1px $secondary-color;
+  background-color: $primary-color;
+}
+
+.image-grid {
+  padding: 20px 0 20px 0;
+
+  &__image {
+    padding: 5px;
+    min-width: 300px;
+  }
+}
+
