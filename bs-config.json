@@ -1,4 +1,5 @@
 {
   "port": 8000,
-  "files": ["index.html"]
+  "files": ["index.html", "dist/*/**.{css,js}"],
+  "open": false
 }

@@ -1,4 +1,6 @@
-const path = require('path');
+const path =                require('path');
+const ExtractTextPlugin =   require('extract-text-webpack-plugin');
+const autoprefixer =        require('autoprefixer');
 
 module.exports = {
   entry: [
@@ -7,17 +9,32 @@ module.exports = {
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: 'js/bundle.js'
   },
   resolve: {
-    extensions: [".ts", ".js", ".json", ".jsx", ".css"]
+    extensions: [".ts", ".js", ".json", ".jsx", ".css"],
+    alias: {
+      _scss: path.resolve(__dirname, 'resources', 'scss')
+    }
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader'
+        loader: 'ts-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract('css-loader!sass-loader!postcss-loader'),
+        exclude: /node_modules/
       }
     ]
-  }
+  },
+  plugins: [
+    new ExtractTextPlugin({
+      filename: 'css/[name].css',
+      allChunks: true,
+    })
+  ]
 }

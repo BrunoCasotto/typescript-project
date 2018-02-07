@@ -82,7 +82,7 @@ console.log('test');
 /* 2 */
 /***/ (function(module, exports) {
 
-
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
