@@ -16,6 +16,14 @@
     height: calc(80vh - 100px);
   }
 
+  @media screen and(max-width: $screen-xs) {
+    height: calc(90vh - 100px);
+  }
+
+  @media screen and(max-width: $screen-mc) {
+    height: calc(100vh - 100px);
+  }
+
   &__content {
     width: 700px;
     height: 350px;
@@ -60,7 +68,14 @@
   }
 }
 
+.message {
+  &--alignt-right {
+    text-align: right;
+  }
+}
+
 .notification-float {
+  opacity: 0.8;
   width: 300px;
   max-height: 200px;
   position: absolute;
@@ -68,11 +83,17 @@
   top : 10px;
   transform: translateX(100%);
   transition: transform $basic-transitions;
-  @media screen and(max-width: $screen-sm) {
-    display: none;
+
+  @media screen and(max-width: $screen-mc) {
+    top: 0;
+    transform: translateY(-100%);
+    left: 50%;
   }
 
   &--active {
     transform: translateX(-10px);
+    @media screen and(max-width: $screen-mc) {
+      transform: translateY(10px);
+    }
   }
 }

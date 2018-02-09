@@ -10771,6 +10771,14 @@ html {
     padding: 10px;
     height: calc(80vh - 100px); } }
 
+@media screen and (max-width: 540px) {
+  .chat {
+    height: calc(90vh - 100px); } }
+
+@media screen and (max-width: 480px) {
+  .chat {
+    height: calc(100vh - 100px); } }
+
 .chat__content {
   width: 700px;
   height: 350px;
@@ -10809,7 +10817,11 @@ html {
       -ms-flex: 3;
       flex: 3; }
 
+.message--alignt-right {
+  text-align: right; }
+
 .notification-float {
+  opacity: 0.8;
   width: 300px;
   max-height: 200px;
   position: absolute;
@@ -10821,9 +10833,16 @@ html {
   transition: -webkit-transform 0.5s ease-in;
   transition: transform 0.5s ease-in;
   transition: transform 0.5s ease-in, -webkit-transform 0.5s ease-in; }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 480px) {
     .notification-float {
-      display: none; } }
+      top: 0;
+      -webkit-transform: translateY(-100%);
+      transform: translateY(-100%);
+      left: 50%; } }
   .notification-float--active {
     -webkit-transform: translateX(-10px);
     transform: translateX(-10px); }
+    @media screen and (max-width: 480px) {
+      .notification-float--active {
+        -webkit-transform: translateY(10px);
+        transform: translateY(10px); } }
