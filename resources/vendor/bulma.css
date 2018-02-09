@@ -7133,7 +7133,7 @@ a.navbar-link.is-active {
 }
 
 .navbar-item img {
-  max-height: 1.75rem;
+  max-height: 100%;
 }
 
 .navbar-item.has-dropdown {

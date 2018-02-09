@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1,width=device-width,user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="dist/css/main.css">
     <title>Firebase Chat</title>
@@ -10,7 +10,17 @@
 
   <body class="content">
     <header class="header">
-      <h1>Welcome to Firebase Nerd Chat</h1>
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+          <div class="navbar-brand">
+            <a class="navbar-item" href="https://bulma.io">
+              <img src="https://www.outsystems.com/forgeCore/_image.aspx/A28atdGCIn2i_ZW11S_0KWgJm3iqRyHU-20=/firebase"
+                alt="Firebase Nerd Chat" width="50" height="50"
+              >
+              <h2>Firebase Nerd Chat</h2>
+            </a>
+
+          </div>
+        </nav>
     </header>
 
     <section class="chat">
@@ -33,22 +43,20 @@
 
     </section>
 
-    <article class="message notification-float notification-float--active">
+    <article class="message notification-float">
       <div class="message-header">
         <p>Hello World</p>
         <button class="delete" aria-label="delete"></button>
       </div>
       <div class="message-body">
-        Nullam gravida purus diam, et dictum 
+        Nullam gravida purus diam, et dictum
         <a>felis venenatis</a> efficitur.
         Aenean ac <em>eleifend lacus</em>,
         in mollis lectus.
       </div>
     </article>
 
-    <footer>
-      My typescript footer
-    </footer>
+    <footer> </footer>
   </body>
   <script src="dist/js/bundle.js"></script>
 </html>
