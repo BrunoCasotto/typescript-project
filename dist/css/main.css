@@ -10821,10 +10821,10 @@ html {
   text-align: right; }
 
 .notification-float {
-  opacity: 0.8;
+  opacity: 0.9;
   width: 300px;
   max-height: 200px;
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 10px;
   -webkit-transform: translateX(100%);
