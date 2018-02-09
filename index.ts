@@ -1,1 +1,2 @@
-console.log('test')
+import VirtualDom from './resources/js/virtualDom/index';
+

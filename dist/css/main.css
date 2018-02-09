@@ -10821,7 +10821,7 @@ html {
   text-align: right; }
 
 .notification-float {
-  opacity: 0.9;
+  opacity: 0.8;
   width: 300px;
   max-height: 200px;
   position: fixed;

@@ -73,9 +73,11 @@ module.exports = __webpack_require__(2);
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-console.log('test');
+"use strict";
+
+exports.__esModule = true;
 
 
 /***/ }),
