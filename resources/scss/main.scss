@@ -86,14 +86,14 @@
 
   @media screen and(max-width: $screen-mc) {
     top: 0;
-    transform: translateY(-100%);
     left: 50%;
+    transform: translateY(-100%) translateX(-50%);
   }
 
   &--active {
     transform: translateX(-10px);
     @media screen and(max-width: $screen-mc) {
-      transform: translateY(10px);
+      transform: translateY(10px) translateX(-50%);
     }
   }
 }
