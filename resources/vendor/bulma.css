@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);/*! bulma.io v0.6.2 | MIT License | github.com/jgthms/bulma */
+/*! bulma.io v0.6.2 | MIT License | github.com/jgthms/bulma */
 @-webkit-keyframes spinAround {
   from {
     -webkit-transform: rotate(0deg);
@@ -5471,7 +5471,7 @@ a.tag:hover {
 
 .breadcrumb li + li::before {
   color: #4a4a4a;
-  content: "/";
+  content: "\0002f";
 }
 
 .breadcrumb ul, .breadcrumb ol {
@@ -5524,19 +5524,19 @@ a.tag:hover {
 }
 
 .breadcrumb.has-arrow-separator li + li::before {
-  content: "\2192";
+  content: "\02192";
 }
 
 .breadcrumb.has-bullet-separator li + li::before {
-  content: "\2022";
+  content: "\02022";
 }
 
 .breadcrumb.has-dot-separator li + li::before {
-  content: "\B7";
+  content: "\000b7";
 }
 
 .breadcrumb.has-succeeds-separator li + li::before {
-  content: "\227B";
+  content: "\0227B";
 }
 
 .card {
@@ -10715,96 +10715,5 @@ label.panel-block:hover {
 .footer {
   background-color: whitesmoke;
   padding: 3rem 1.5rem 6rem;
-}[v-cloak] {
-  display: none; }
-
-*,
-*:before,
-*:after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box; }
-
-html {
-  font-size: 14px;
-  font-weight: 400;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  text-rendering: optimizeLegibility !important;
-  -webkit-font-smoothing: antialiased !important;
-  font-family: sans-serif; }
-  html img {
-    max-width: 100%; }
-  html a {
-    text-decoration: none; }
-    html a:hover {
-      text-decoration: none; }
-
-.container {
-  width: 100%; }
-  .container__row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center; }
-    .container__row__col {
-      width: 100%; }
-      .container__row__col--auto {
-        flex: 1; }
-      .container__row__col--md {
-        width: 50%; }
-      .container__row__col--sm {
-        width: 33.333%; }
-
-.header {
-  height: 100px;
-  padding: 0 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center; }
-
-.chat__content {
-  width: 700px;
-  height: 350px;
-  padding: 20px;
-  margin: 0 auto; }
-  .chat__content__messages {
-    width: 100%;
-    height: 90%;
-    overflow-y: scroll; }
-    .chat__content__messages::-webkit-scrollbar {
-      display: none; }
-  .chat__content__form {
-    height: 10%;
-    width: 100%;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex; }
-    .chat__content__form__button {
-      -webkit-box-flex: 1;
-      -ms-flex: 1;
-      flex: 1;
-      margin-left: 5px; }
-    .chat__content__form__input {
-      -webkit-box-flex: 3;
-      -ms-flex: 3;
-      flex: 3; }
-
-.notification-float {
-  width: 300px;
-  max-height: 200px;
-  position: absolute;
-  right: 10px;
-  bottom: 0;
-  -webkit-transform: translateY(100%);
-  transform: translateY(100%);
-  -webkit-transition: -webkit-transform 0.5s ease-in;
-  transition: -webkit-transform 0.5s ease-in;
-  transition: transform 0.5s ease-in;
-  transition: transform 0.5s ease-in, -webkit-transform 0.5s ease-in; }
-  .notification-float--active {
-    -webkit-transform: translateY(0);
-    transform: translateY(0); }
+}
+/*# sourceMappingURL=bulma.css.map */

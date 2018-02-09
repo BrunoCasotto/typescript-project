@@ -5,25 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="dist/css/main.css">
-    <title>Document</title>
+    <title>Firebase Chat</title>
   </head>
 
-  <body>
+  <body class="content">
     <header class="header">
-      My typescript page
+      <h1>Welcome to Firebase Nerd Chat</h1>
     </header>
 
-    <section class="content container">
-      <div class="container__row image-grid">
-        <div class="container__row__col container__row__col--sm image-grid__image">
-          <form action="">
-            <button class="button button--dark">Cadastrar</button>
-          </form>
+    <section class="chat">
+      <div class="chat__content box">
+
+        <div class="chat__content__messages">
+          <p class="message">
+            <span class="message__author">Bruno Casotto</span>
+            <span class="message__content">Content of message</span>
+          </p>
+        </div>
+
+        <div class="chat__content__form">
+            <input class="input is-primary" type="text" placeholder="Type your message">
+            <button class="button is-primary chat__content__form__button">
+              Send
+            </button>
         </div>
       </div>
+
     </section>
 
-    <footer class="footer">
+    <article class="message notification-float notification-float--active">
+      <div class="message-header">
+        <p>Hello World</p>
+        <button class="delete" aria-label="delete"></button>
+      </div>
+      <div class="message-body">
+        Nullam gravida purus diam, et dictum 
+        <a>felis venenatis</a> efficitur.
+        Aenean ac <em>eleifend lacus</em>,
+        in mollis lectus.
+      </div>
+    </article>
+
+    <footer>
       My typescript footer
     </footer>
   </body>
