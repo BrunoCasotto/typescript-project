@@ -78,6 +78,12 @@ module.exports = __webpack_require__(2);
 "use strict";
 
 exports.__esModule = true;
+var message_1 = __webpack_require__(4);
+(function () {
+    var messageVIrtual = new message_1["default"]('Bruno Casotto', 'Lorem ipsum dolor sit amet');
+    var messagesDom = document.getElementById('messages');
+    messageVIrtual.render(messagesDom);
+})();
 
 
 /***/ }),
@@ -85,6 +91,82 @@ exports.__esModule = true;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 3 */,
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+exports.__esModule = true;
+var virtualDom_1 = __webpack_require__(5);
+/**
+ * Class to create message element
+ */
+var Message = /** @class */ (function (_super) {
+    __extends(Message, _super);
+    function Message(author, message) {
+        var _this = _super.call(this) || this;
+        _super.prototype.setTemplate.call(_this, "\n      <article class=\"message\">\n        <div class=\"message-body\">\n          <p>From: <strong>" + author + "</strong></p>\n          " + message + "\n        </div>\n      </article>");
+        return _this;
+    }
+    return Message;
+}(virtualDom_1["default"]));
+exports["default"] = Message;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+/**
+ * class to manipulation of DOM
+ */
+var VirtualDom = /** @class */ (function () {
+    /**
+     * function to create a virtual div
+     */
+    function VirtualDom() {
+        this.template = document.createElement('div');
+    }
+    /**
+     * function to render element into especific html locale
+     * @param locale element where the template will be injected
+     */
+    VirtualDom.prototype.render = function (locale) {
+        locale.appendChild(this.template);
+    };
+    /**
+     * function to set the current element to process
+     * @param html html snippet to manipulate
+     */
+    VirtualDom.prototype.setTemplate = function (html) {
+        this.template.innerHTML = html;
+    };
+    /**
+     * get the current html template
+     */
+    VirtualDom.prototype.getTemplate = function () {
+        return this.template;
+    };
+    return VirtualDom;
+}());
+exports["default"] = VirtualDom;
+
 
 /***/ })
 /******/ ]);
