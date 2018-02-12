@@ -71,64 +71,74 @@
 
 exports.__esModule = true;
 /**
- * class to manipulation of DOM
+ * class to manipulation of the DOM
  */
 var VirtualDom = /** @class */ (function () {
-    function VirtualDom() {
+    /**
+     * constructor of virtualDom
+     * @param template param that define template or not
+     */
+    function VirtualDom(template) {
+        if (template === void 0) { template = null; }
         //components dependencies
         this.components = [];
+        if (template) {
+            this.vdom = template;
+        }
     }
     /**
      * function to render element into especific html locale
      * @param locale element where the template will be injected
      */
-    VirtualDom.prototype.render = function () {
+    VirtualDom.prototype.render = function (template) {
+        if (template === void 0) { template = null; }
         try {
-            var places = void 0;
-            places = document.querySelectorAll(this.name);
-            var i = places.length;
-            while (i--) {
-                //render the child nodes on the selected place
-                this.renderChildNodes(places[i]);
+            if (template) {
+                template.querySelector(this.name).appendChild(this.template);
             }
-            //initialize the components dependencies
-            this.initDependencies();
+            else {
+                this.resolveDependencies();
+                this.renderChildNodes(document.querySelector(this.name));
+            }
+            return template;
         }
         catch (error) {
             console.error('virtualDom.render', error);
         }
     };
+    VirtualDom.prototype.resolveDependencies = function () {
+        var _this = this;
+        var componentInstance;
+        var props = {};
+        var componentLocales;
+        var i = 0;
+        this.components.forEach(function (dependency) {
+            //getting all component callers into template
+            componentLocales = _this.template.querySelectorAll(dependency.name);
+            //looping the compnent locales
+            i = componentLocales.length;
+            while (i--) {
+                props = componentLocales[i].attributes;
+                componentInstance = new dependency.component(props);
+                componentInstance.render(_this.template);
+            }
+        });
+        return this.template;
+    };
     VirtualDom.prototype.renderChildNodes = function (htmlPLace) {
         try {
-            //creating the html basead on name component
-            this.htmlPlace = htmlPLace;
             //getting all child nodes
             var index = this.template.childNodes.length;
             var childNode = void 0;
             while (index--) {
                 childNode = this.template.childNodes[index];
                 if (typeof childNode === 'object') {
-                    this.htmlPlace.appendChild(childNode);
+                    htmlPLace.appendChild(childNode);
                 }
             }
         }
         catch (error) {
             console.error('virtualDom.render', error);
-        }
-    };
-    /**
-     * function to initialize components
-     */
-    VirtualDom.prototype.initDependencies = function () {
-        try {
-            var componentInstance_1;
-            this.components.forEach(function (component) {
-                componentInstance_1 = new component();
-                componentInstance_1.render();
-            });
-        }
-        catch (error) {
-            console.error('virtualDom.initDependencies', error);
         }
     };
     /**
@@ -142,17 +152,6 @@ var VirtualDom = /** @class */ (function () {
         }
         catch (error) {
             console.error('virtualDom.setTemplate', error);
-        }
-    };
-    /**
-     * get the current html template
-     */
-    VirtualDom.prototype.getTemplate = function () {
-        try {
-            return this.template;
-        }
-        catch (error) {
-            console.error('virtualDom.getTemplate', error);
         }
     };
     /**
@@ -197,17 +196,22 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 var virtualDom_1 = __webpack_require__(0);
-var message_1 = __webpack_require__(5);
+var message_1 = __webpack_require__(3);
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App() {
-        var _this = _super.call(this) || this;
+        var _this = 
+        //passing root as true
+        _super.call(this) || this;
         //setting the root place
         _this.name = '#chat';
         //register components
-        _this.registerComponent(message_1["default"]);
+        _this.registerComponent({
+            name: 'message',
+            component: message_1["default"]
+        });
         //settings the html
-        _this.setTemplate("\n    <div class=\"chat__content box\">\n      <div class=\"chat__content__messages\" id=\"messages\">\n        <article class=\"message\">\n          <div class=\"message-body\">\n            <p>From: <strong>Bruno Casotto</strong></p>\n            Lorem ipsum dolor sit amet\n          </div>\n        </article>\n\n        <article class=\"message message--alignt-right is-primary\">\n          <div class=\"message-body\">\n            <p>From: <strong>Bruno Casotto</strong></p>\n            Lorem ipsum dolor sit amet\n          </div>\n        </article>\n\n        <message author=\"Bruno Casotto\" message=\"message\"></message>\n      </div>\n      <div class=\"chat__content__form\">\n          <input class=\"input is-primary\" type=\"text\" placeholder=\"Type your message\">\n          <button class=\"button is-primary chat__content__form__button\">\n            Send\n          </button>\n      </div>\n    </div>\n    ");
+        _this.setTemplate("\n      <div class=\"chat__content box\">\n        <div class=\"chat__content__messages\" id=\"messages\">\n          <article class=\"message\">\n            <div class=\"message-body\">\n              <p>From: <strong>Bruno Casotto</strong></p>\n              Lorem ipsum dolor sit amet\n            </div>\n          </article>\n\n          <article class=\"message message--alignt-right is-primary\">\n            <div class=\"message-body\">\n              <p>From: <strong>Bruno Casotto</strong></p>\n              Lorem ipsum dolor sit amet\n            </div>\n          </article>\n\n          <message author=\"Bruno Casotto\" message=\"message\"></message>\n        </div>\n        <div class=\"chat__content__form\">\n            <input class=\"input is-primary\" type=\"text\" placeholder=\"Type your message\">\n            <button class=\"button is-primary chat__content__form__button\">\n              Send\n            </button>\n        </div>\n      </div>\n    ");
         //initial render
         _super.prototype.render.call(_this);
         return _this;
@@ -218,14 +222,7 @@ exports["default"] = new App();
 
 
 /***/ }),
-/* 3 */,
-/* 4 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 5 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -253,13 +250,19 @@ var Message = /** @class */ (function (_super) {
         //setting the component call name
         _this.name = 'message';
         //setting the template
-        _this.setTemplate("\n      <article class=\"message\">\n        <div class=\"message-body\">\n          <p>From: <strong>" + props['author'] + "</strong></p>\n          " + props['message'] + "\n        </div>\n      </article>");
+        _this.setTemplate("\n      <article class=\"message\">\n        <div class=\"message-body\">\n          <p>From: <strong>" + props['author'].value + "</strong></p>\n          " + props['message'].value + "\n        </div>\n      </article>");
         return _this;
     }
     return Message;
 }(virtualDom_1["default"]));
 exports["default"] = Message;
 
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

@@ -1,45 +1,70 @@
 /**
- * class to manipulation of DOM
+ * class to manipulation of the DOM
  */
 class VirtualDom {
   //content of component
   private template: Element;
-  //template nodes
-  private nodes: Array<Element>;  
-  //component place
-  private htmlPlace: Element;
+  //prop to know if the component is the root component
+  private root: Boolean;
+  //prop that represent virtual dom
+  private vdom: Element;
   //name of component call
   protected name:string;
   //components dependencies
   private components: Array<any> = [];
 
   /**
+   * constructor of virtualDom
+   * @param template param that define template or not
+   */
+  constructor(template: Element = null) {
+    if(template) {
+      this.vdom = template
+    }
+  }
+
+  /**
    * function to render element into especific html locale
    * @param locale element where the template will be injected
    */
-  public render():void {
+  public render(template:Element=null):Element {
     try {
-      let places:NodeListOf<Element>;
-      places = document.querySelectorAll(this.name);
-
-      let i = places.length;
-      while(i--) {
-        //render the child nodes on the selected place
-        this.renderChildNodes(places[i]);
+      if(template) {
+        template.querySelector(this.name).appendChild(this.template);
+      } else {
+        this.resolveDependencies();
+        this.renderChildNodes(document.querySelector(this.name))
       }
 
-      //initialize the components dependencies
-      this.initDependencies();
+      return template;
     } catch (error) {
       console.error('virtualDom.render', error);
     }
   }
 
+  private resolveDependencies():Element {
+    let componentInstance;
+    let props: Object = {};
+    let componentLocales:NodeListOf<Element>;
+    let i: number = 0;
+
+    this.components.forEach((dependency) => {
+      //getting all component callers into template
+      componentLocales = this.template.querySelectorAll(dependency.name);
+      //looping the compnent locales
+      i = componentLocales.length;
+      while(i--) {
+        props = componentLocales[i].attributes;
+        componentInstance = new dependency.component(props);
+        componentInstance.render(this.template);
+      }
+    });
+
+    return this.template;
+  }
+
   private renderChildNodes(htmlPLace:Element) {
     try {
-      //creating the html basead on name component
-      this.htmlPlace = htmlPLace;
-
       //getting all child nodes
       let index = this.template.childNodes.length;
       let childNode;
@@ -47,28 +72,11 @@ class VirtualDom {
       while(index--) {
         childNode = this.template.childNodes[index];
         if(typeof childNode === 'object') {
-          this.htmlPlace.appendChild(childNode);
+          htmlPLace.appendChild(childNode);
         }
       }
     } catch (error) {
       console.error('virtualDom.render', error);
-    }
-  }
-
-  /**
-   * function to initialize components
-   */
-  initDependencies():void {
-    try {
-      let componentInstance;
-
-      this.components.forEach((component) => {
-        componentInstance = new component();
-        componentInstance.render();
-      });
-
-    } catch (error) {
-      console.error('virtualDom.initDependencies', error);
     }
   }
 
@@ -79,21 +87,9 @@ class VirtualDom {
   public setTemplate( html:string ): void {
     try {
       this.template = document.createElement('div');
-      this.template.innerHTML = html
-
+      this.template.innerHTML = html;
     } catch (error) {
       console.error('virtualDom.setTemplate', error);
-    }
-  }
-
-  /**
-   * get the current html template
-   */
-  public getTemplate(): Element {
-    try {
-      return this.template;
-    } catch (error) {
-      console.error('virtualDom.getTemplate', error);
     }
   }
 

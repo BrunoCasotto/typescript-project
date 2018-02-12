@@ -10,12 +10,13 @@ class Message extends VirtualDom {
   //constructor with components props
   constructor(props: Object) {
     super();
+
     //setting the template
     this.setTemplate(`
       <article class="message">
         <div class="message-body">
-          <p>From: <strong>${props['author']}</strong></p>
-          ${props['message']}
+          <p>From: <strong>${props['author'].value}</strong></p>
+          ${props['message'].value}
         </div>
       </article>`
     );
