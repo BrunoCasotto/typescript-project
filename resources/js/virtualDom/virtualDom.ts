@@ -27,10 +27,12 @@ class VirtualDom {
    * function to render element into especific html locale
    * @param locale element where the template will be injected
    */
-  public render(template:Element=null):Element {
+  public render(template: Element = null):Element {
     try {
       if(template) {
-        template.querySelector(this.name).appendChild(this.template);
+        template.querySelector(this.name).parentNode;
+        this.renderChildNodes(template.querySelector(this.name).parentElement);
+        template.querySelector(this.name).remove();
       } else {
         this.resolveDependencies();
         this.renderChildNodes(document.querySelector(this.name))
@@ -68,7 +70,7 @@ class VirtualDom {
       //getting all child nodes
       let index = this.template.childNodes.length;
       let childNode;
-
+      //insert all child nodes on parent node of component
       while(index--) {
         childNode = this.template.childNodes[index];
         if(typeof childNode === 'object') {

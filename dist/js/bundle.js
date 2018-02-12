@@ -94,7 +94,9 @@ var VirtualDom = /** @class */ (function () {
         if (template === void 0) { template = null; }
         try {
             if (template) {
-                template.querySelector(this.name).appendChild(this.template);
+                template.querySelector(this.name).parentNode;
+                this.renderChildNodes(template.querySelector(this.name).parentElement);
+                template.querySelector(this.name).remove();
             }
             else {
                 this.resolveDependencies();
@@ -130,6 +132,7 @@ var VirtualDom = /** @class */ (function () {
             //getting all child nodes
             var index = this.template.childNodes.length;
             var childNode = void 0;
+            //insert all child nodes on parent node of component
             while (index--) {
                 childNode = this.template.childNodes[index];
                 if (typeof childNode === 'object') {
@@ -211,7 +214,7 @@ var App = /** @class */ (function (_super) {
             component: message_1["default"]
         });
         //settings the html
-        _this.setTemplate("\n      <div class=\"chat__content box\">\n        <div class=\"chat__content__messages\" id=\"messages\">\n          <article class=\"message\">\n            <div class=\"message-body\">\n              <p>From: <strong>Bruno Casotto</strong></p>\n              Lorem ipsum dolor sit amet\n            </div>\n          </article>\n\n          <article class=\"message message--alignt-right is-primary\">\n            <div class=\"message-body\">\n              <p>From: <strong>Bruno Casotto</strong></p>\n              Lorem ipsum dolor sit amet\n            </div>\n          </article>\n\n          <message author=\"Bruno Casotto\" message=\"message\"></message>\n        </div>\n        <div class=\"chat__content__form\">\n            <input class=\"input is-primary\" type=\"text\" placeholder=\"Type your message\">\n            <button class=\"button is-primary chat__content__form__button\">\n              Send\n            </button>\n        </div>\n      </div>\n    ");
+        _this.setTemplate("\n      <div class=\"chat__content box\">\n        <div class=\"chat__content__messages\" id=\"messages\">\n          <article class=\"message\">\n            <div class=\"message-body\">\n              <p>From: <strong>Bruno Casotto</strong></p>\n              Lorem ipsum dolor sit amet\n            </div>\n          </article>\n\n          <article class=\"message message--alignt-right is-primary\">\n            <div class=\"message-body\">\n              <p>From: <strong>Bruno Casotto</strong></p>\n              Lorem ipsum dolor sit amet\n            </div>\n          </article>\n\n          <message author=\"Bruno Casotto\" message=\"message\"></message>\n          <message author=\"Renata\" message=\"Mensagem maior que a ultima\"></message>\n          <message author=\"Maria jose\" message=\"mensagem ainda maior que a ultima que era grande\"></message>\n        </div>\n        <div class=\"chat__content__form\">\n            <input class=\"input is-primary\" type=\"text\" placeholder=\"Type your message\">\n            <button class=\"button is-primary chat__content__form__button\">\n              Send\n            </button>\n        </div>\n      </div>\n    ");
         //initial render
         _super.prototype.render.call(_this);
         return _this;

@@ -35,6 +35,8 @@ class App extends VirtualDom{
           </article>
 
           <message author="Bruno Casotto" message="message"></message>
+          <message author="Renata" message="Mensagem maior que a ultima"></message>
+          <message author="Maria jose" message="mensagem ainda maior que a ultima que era grande"></message>
         </div>
         <div class="chat__content__form">
             <input class="input is-primary" type="text" placeholder="Type your message">
