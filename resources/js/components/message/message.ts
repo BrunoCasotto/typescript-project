@@ -4,13 +4,18 @@ import VirtualDom from './../../virtualDom/virtualDom';
  */
 class Message extends VirtualDom {
 
-  constructor(author:string, message:string) {
+  //setting the component call name
+  name:string = 'message';
+
+  //constructor with components props
+  constructor(props: Object) {
     super();
-    super.setTemplate(`
+    //setting the template
+    this.setTemplate(`
       <article class="message">
         <div class="message-body">
-          <p>From: <strong>${author}</strong></p>
-          ${message}
+          <p>From: <strong>${props['author']}</strong></p>
+          ${props['message']}
         </div>
       </article>`
     );
