@@ -32,8 +32,16 @@ class VirtualDom {
         let callerElement: Element = template.querySelector(this.name);
         //replace the caller element with component template
         callerElement.parentElement.replaceChild(this.template, callerElement);
-      } else {
+        //resolve the component dependencies
         this.resolveDependencies();
+      } else {
+        /*this option occur on root component the resolve dependencies is called
+        before the render child nodes, so when the render is called
+        all dependencies are rendered on vDom (template)s*/
+
+        //resolve the component dependencies
+        this.resolveDependencies();
+        //render the component into the selected place
         this.renderChildNodes(document.querySelector(this.name))
       }
 

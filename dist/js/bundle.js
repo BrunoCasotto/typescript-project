@@ -96,9 +96,16 @@ var VirtualDom = /** @class */ (function () {
                 var callerElement = template.querySelector(this.name);
                 //replace the caller element with component template
                 callerElement.parentElement.replaceChild(this.template, callerElement);
+                //resolve the component dependencies
+                this.resolveDependencies();
             }
             else {
+                /*this option occur on root component the resolve dependencies is called
+                before the render child nodes, so when the render is called
+                all dependencies are rendered on vDom (template)s*/
+                //resolve the component dependencies
                 this.resolveDependencies();
+                //render the component into the selected place
                 this.renderChildNodes(document.querySelector(this.name));
             }
             return template;
@@ -272,6 +279,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 var virtualDom_1 = __webpack_require__(0);
+var miniUser_1 = __webpack_require__(6);
 /**
  * Class to create message element
  */
@@ -280,14 +288,16 @@ var Message = /** @class */ (function (_super) {
     //constructor with components props
     function Message(props) {
         var _this = _super.call(this) || this;
-        //setting the component call name
+        //define the component name  
         _this.name = 'message';
+        //register component dependencie
+        _this.registerComponent({ name: 'mini-user', component: miniUser_1["default"] });
         var classList = '';
         if (props['from'] && props['from'].value === 'sent') {
             classList = 'message--alignt-right is-primary';
         }
         //setting the template
-        _this.setTemplate("\n      <article class=\"message " + classList + "\">\n        <div class=\"message-body\">\n          <p>From: <strong>" + props['author'].value + "</strong></p>\n          " + props['message'].value + "\n        </div>\n      </article>");
+        _this.setTemplate("\n      <article class=\"message " + classList + "\">\n        <mini-user></mini-user>\n        <div class=\"message-body\">\n          <p>From: <strong>" + props['author'].value + "</strong></p>\n          " + props['message'].value + "\n        </div>\n      </article>");
         return _this;
     }
     return Message;
@@ -342,6 +352,43 @@ exports["default"] = Calling;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+exports.__esModule = true;
+var virtualDom_1 = __webpack_require__(0);
+/**
+ * Class to create message element
+ */
+var MiniUser = /** @class */ (function (_super) {
+    __extends(MiniUser, _super);
+    //constructor with components props
+    function MiniUser(props) {
+        var _this = _super.call(this) || this;
+        //define the component name
+        _this.name = 'mini-user';
+        //setting the template
+        _this.setTemplate("\n      <p>mini-user</p>  \n    ");
+        return _this;
+    }
+    return MiniUser;
+}(virtualDom_1["default"]));
+exports["default"] = MiniUser;
+
 
 /***/ })
 /******/ ]);

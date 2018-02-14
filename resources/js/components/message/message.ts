@@ -1,15 +1,21 @@
 import VirtualDom from './../../virtualDom/virtualDom';
+import MiniUser from './../user/miniUser';
+
 /**
  * Class to create message element
  */
 class Message extends VirtualDom {
 
-  //setting the component call name
-  name:string = 'message';
-
   //constructor with components props
   constructor(props: Object) {
     super();
+
+    //define the component name  
+    this.name = 'message';
+
+    //register component dependencie
+    this.registerComponent({name: 'mini-user', component: MiniUser });
+
     let classList: string = '';
     if(props['from'] && props['from'].value === 'sent') {
       classList = 'message--alignt-right is-primary'
@@ -17,6 +23,7 @@ class Message extends VirtualDom {
     //setting the template
     this.setTemplate(`
       <article class="message ${classList}">
+        <mini-user></mini-user>
         <div class="message-body">
           <p>From: <strong>${props['author'].value}</strong></p>
           ${props['message'].value}
