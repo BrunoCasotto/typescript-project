@@ -22,12 +22,12 @@ class App extends VirtualDom{
           <message from="sent" author="Bruno Casotto" message="message"></message>
           <calling from="sent"></calling>
           <message author="Renata" message="Mensagem maior que a ultima"></message>
-          <calling></calling>          
+          <calling></calling>
           <message author="Maria jose" message="mensagem ainda maior que a ultima que era grande"></message>
         </div>
         <div class="chat__content__form">
             <input class="input is-primary" type="text" placeholder="Type your message">
-            <button class="button is-primary chat__content__form__button">
+            <button id="send-button" class="button is-primary chat__content__form__button">
               Send
             </button>
         </div>
@@ -36,6 +36,14 @@ class App extends VirtualDom{
 
     //initial render
     super.render();
+
+    document.getElementById('send-button').addEventListener('click', (e) => {
+      this.callMessageReinit(e);
+    });
+  }
+
+  private callMessageReinit(event): void {
+    console.log(this.getInstanceList('calling'));
   }
 }
 

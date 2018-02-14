@@ -12,9 +12,10 @@ class VirtualDom {
   protected name:string;
   //components dependencies
   private components: Array<any> = [];
+  //components dependencies
+  protected componentsInstances: Array<Object> = [];
 
     /**
-     * 
      * @param root true if is the first component
      */
     constructor(root=false) {
@@ -73,6 +74,9 @@ class VirtualDom {
     }
   }
 
+  /**
+   * Function to render the component dependencies into the html
+   */
   private resolveDependencies():Element {
     let componentInstance;
     let props: Object = {};
@@ -88,6 +92,8 @@ class VirtualDom {
         props = componentLocales[i].attributes;
         componentInstance = new dependency.component(props);
         componentInstance.render(this.template);
+        //register the component instance
+        this.componentsInstances.push({ name:dependency.name, instance: componentInstance});
       }
     });
 
@@ -146,6 +152,18 @@ class VirtualDom {
     } catch (error) {
       console.error('virtualDom.getTemplate', error);
     }
+  }
+
+  /**
+   * this function returns a instance list of a determinated component
+   * @param component Name of component to search
+   */
+  protected getInstanceList(component: string) : Array<Object> {
+    return this.componentsInstances.filter((instance)=>{
+      if(instance['name'] === component) {
+        return instance;
+      }
+    });
   }
 }
 
