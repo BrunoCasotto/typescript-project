@@ -13,15 +13,13 @@ class VirtualDom {
   //components dependencies
   private components: Array<any> = [];
 
-  /**
-   * constructor of virtualDom
-   * @param template param that define template or not
-   */
-  constructor(template: Element = null) {
-    if(template) {
-      this.vdom = template
+    /**
+     * 
+     * @param root true if is the first component
+     */
+    constructor(root=false) {
+      this.root = root;
     }
-  }
 
   /**
    * function to render element into especific html locale
@@ -30,9 +28,10 @@ class VirtualDom {
   public render(template: Element = null):Element {
     try {
       if(template) {
-        template.querySelector(this.name).parentNode;
-        this.renderChildNodes(template.querySelector(this.name).parentElement);
-        template.querySelector(this.name).remove();
+        //find the caller element like <component-name>
+        let callerElement: Element = template.querySelector(this.name);
+        //replace the caller element with component template
+        callerElement.parentElement.replaceChild(this.template, callerElement);
       } else {
         this.resolveDependencies();
         this.renderChildNodes(document.querySelector(this.name))
@@ -44,10 +43,32 @@ class VirtualDom {
     }
   }
 
+    /**
+   * Function to render all child nodes of template into the html place
+   * @param htmlPLace place where the template should be render
+   */
+  private renderChildNodes(htmlPLace:Element) {
+    try {
+      //getting all child nodes
+      let index = this.template.childNodes.length;
+      let childNode;
+      //insert all child nodes on parent node of component
+      while(index--) {
+        childNode = this.template.childNodes[index];
+
+        if(typeof childNode === 'object') {
+          htmlPLace.appendChild(childNode);
+        }
+      }
+    } catch (error) {
+      console.error('virtualDom.render', error);
+    }
+  }
+
   private resolveDependencies():Element {
     let componentInstance;
     let props: Object = {};
-    let componentLocales:NodeListOf<Element>;
+    let componentLocales: NodeListOf<Element>;
     let i: number = 0;
 
     this.components.forEach((dependency) => {
@@ -65,31 +86,44 @@ class VirtualDom {
     return this.template;
   }
 
-  private renderChildNodes(htmlPLace:Element) {
-    try {
-      //getting all child nodes
-      let index = this.template.childNodes.length;
-      let childNode;
-      //insert all child nodes on parent node of component
-      while(index--) {
-        childNode = this.template.childNodes[index];
-        if(typeof childNode === 'object') {
-          htmlPLace.appendChild(childNode);
-        }
-      }
-    } catch (error) {
-      console.error('virtualDom.render', error);
-    }
-  }
-
   /**
    * function to set the current element to process
    * @param html html snippet to manipulate
    */
   public setTemplate( html:string ): void {
     try {
-      this.template = document.createElement('div');
-      this.template.innerHTML = html;
+      //create temp div
+      let templateTemp: Element = document.createElement('div');
+      //insert the html text into the temp div
+      templateTemp.innerHTML = html;
+      //getting all attributes of temp template
+      let tempAttributes = templateTemp.firstElementChild.attributes;
+      //create the current template
+      this.template = document.createElement(templateTemp.firstElementChild.tagName);
+      //setting the attributes of temp to vDom template
+      let attributesI = tempAttributes.length;
+      let attr;
+      //clone all attributes from temp to vDom
+      while(attributesI--) {
+        attr = document.createAttribute(tempAttributes[attributesI].nodeName)
+        attr.value = tempAttributes[attributesI].nodeValue;
+        this.template.attributes.setNamedItem(attr);
+      }
+      //put all childs from temp to vDom
+      let childrenElements: NodeListOf<Element>;
+
+      //if is the root element the html should be insert into the div caller
+      if(this.root) {
+        childrenElements = templateTemp.children;
+
+        let i: number = templateTemp.children.length;
+        while(i--) {
+          this.template.appendChild(childrenElements[i]);
+        }
+      } else {
+        this.template.innerHTML = templateTemp.firstElementChild.innerHTML;
+      }
+
     } catch (error) {
       console.error('virtualDom.setTemplate', error);
     }
