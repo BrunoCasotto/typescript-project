@@ -26,23 +26,18 @@ class VirtualDom {
    * function to render element into especific html locale
    * @param locale element where the template will be injected
    */
-  public render(template: Element = null):Element {
+  public render(template: Element = null): Element {
     try {
       if(template) {
         //find the caller element like <component-name>
         let callerElement: Element = template.querySelector(this.name);
-        //replace the caller element with component template
         callerElement.parentElement.replaceChild(this.template, callerElement);
-        //resolve the component dependencies
         this.resolveDependencies();
       } else {
         /*this option occur on root component the resolve dependencies is called
         before the render child nodes, so when the render is called
         all dependencies are rendered on vDom (template)s*/
-
-        //resolve the component dependencies
         this.resolveDependencies();
-        //render the component into the selected place
         this.renderChildNodes(document.querySelector(this.name))
       }
 
@@ -56,7 +51,7 @@ class VirtualDom {
    * Function to render all child nodes of template into the html place
    * @param htmlPLace place where the template should be render
    */
-  private renderChildNodes(htmlPLace:Element) {
+  private renderChildNodes(htmlPLace:Element): void {
     try {
       //getting all child nodes
       let index = this.template.childNodes.length;
@@ -164,6 +159,17 @@ class VirtualDom {
         return instance;
       }
     });
+  }
+
+  /**
+   * this function resolve the listeners on the template like vd-click or vd-change
+   */
+  private resolveListeners(template: Element): void {
+    try {
+      console.log(template);
+    } catch (error) {
+      console.error('virtualDom.resolveListeners', error);
+    }
   }
 }
 
