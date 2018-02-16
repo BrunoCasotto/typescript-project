@@ -1,3 +1,4 @@
+
 /**
  * class to manipulation of the DOM
  */
@@ -31,12 +32,15 @@ class VirtualDom {
       if(template) {
         //find the caller element like <component-name>
         let callerElement: Element = template.querySelector(this.name);
+        //resolve the listeners into the template like <component ng-click="functionName">
+        this.resolveListeners();
         callerElement.parentElement.replaceChild(this.template, callerElement);
         this.resolveDependencies();
       } else {
         /*this option occur on root component the resolve dependencies is called
         before the render child nodes, so when the render is called
         all dependencies are rendered on vDom (template)s*/
+        this.resolveListeners();
         this.resolveDependencies();
         this.renderChildNodes(document.querySelector(this.name))
       }
@@ -164,9 +168,19 @@ class VirtualDom {
   /**
    * this function resolve the listeners on the template like vd-click or vd-change
    */
-  private resolveListeners(template: Element): void {
+  private resolveListeners(): void {
     try {
-      console.log(template);
+      //search all elements click on template
+      let elements: NodeListOf<Element> = this.template.querySelectorAll('[vd-click]');
+
+      let i: number = elements.length;
+      let functionListener: string;
+      while(i--) {
+        //getting function to listener name
+        functionListener = elements[i].getAttribute('vd-click');
+        //add event listener on element
+        elements[i].addEventListener('click', this[functionListener]);
+      }
     } catch (error) {
       console.error('virtualDom.resolveListeners', error);
     }

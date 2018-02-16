@@ -1,7 +1,7 @@
 import VirtualDom from './resources/js/virtualDom/virtualDom';
 import Message from './resources/js/components/message/message';
 import Calling from './resources/js/components/calling/calling';
-
+const $ = this;
 class App extends VirtualDom{
 
   constructor() {
@@ -36,14 +36,10 @@ class App extends VirtualDom{
 
     //initial render
     super.render();
-
-    document.getElementById('send-button').addEventListener('click', (e) => {
-      this.sendMessage(e);
-    });
   }
 
-  private sendMessage(event): void {
-    console.log(this.getInstanceList('calling'));
+  public sendMessage(): void {
+    console.log($.default);
   }
 }
 
