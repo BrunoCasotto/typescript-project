@@ -33,8 +33,8 @@ class VirtualDom {
         //find the caller element like <component-name>
         let callerElement: Element = template.querySelector(this.name);
         //resolve the listeners into the template like <component ng-click="functionName">
-        this.resolveListeners();
         callerElement.parentElement.replaceChild(this.template, callerElement);
+        this.resolveListeners();
         this.resolveDependencies();
       } else {
         /*this option occur on root component the resolve dependencies is called
@@ -165,26 +165,79 @@ class VirtualDom {
     });
   }
 
+  //TODO ===========================
+  //Refactor the resolve listeners later to make a cleaner code.
+
   /**
    * this function resolve the listeners on the template like vd-click or vd-change
    */
   private resolveListeners(): void {
     try {
       //search all elements click on template
-      let elements: NodeListOf<Element> = this.template.querySelectorAll('[vd-click]');
+      let elementsClick: NodeListOf<Element> = this.template.querySelectorAll('[vd-click]');
+      let elementsChange: NodeListOf<Element> = this.template.querySelectorAll('[vd-change]');
+      let hoverElements: NodeListOf<Element> = this.template.querySelectorAll('[vd-hover]');
 
-      let i: number = elements.length;
-      let functionListener: string;
+      let i: number = 0;
+      //resolve click listeners
+      i = elementsClick.length;
       while(i--) {
-        //getting function to listener name
-        functionListener = elements[i].getAttribute('vd-click');
-        //add event listener on element
-        elements[i].addEventListener('click', this[functionListener]);
+        this.resolveClick(elementsClick[i])
+      }
+
+      //resolve Change listeners
+      i = elementsChange.length;
+      while(i--) {
+        this.resolveClick(elementsChange[i])
+      }
+
+      //resolve Change listeners
+      i = hoverElements.length;
+      while(i--) {
+        this.resolveHover(hoverElements[i])
       }
     } catch (error) {
       console.error('virtualDom.resolveListeners', error);
     }
   }
+
+  /**
+   * function to define a listener to an element
+   * @param element element where the listerner will be insert
+   */
+  private resolveClick(element: Element) {
+    let functionListener: string;
+    //getting function to listener name
+    functionListener = element.getAttribute('vd-click');
+    //add event listener on element
+    element.addEventListener('click', this[functionListener]);
+  }
+
+    /**
+   * function to define a listener to an element
+   * @param element element where the listerner will be insert
+   */
+  private resolveChange(element: Element) {
+    let functionListener: string;
+    //getting function to listener name
+    functionListener = element.getAttribute('vd-change');
+    //add event listener on element
+    element.addEventListener('change', this[functionListener]);
+  }
+
+  /**
+   * function to define a listener to an element
+   * @param element element where the listerner will be insert
+   */
+  private resolveHover(element: Element) {
+    let functionListener: string;
+    //getting function to listener name
+    functionListener = element.getAttribute('vd-hover');
+    //add event listener on element
+    element.addEventListener('hover', this[functionListener]);
+  }
+
+  //TODO ===========================
 }
 
 export default VirtualDom;

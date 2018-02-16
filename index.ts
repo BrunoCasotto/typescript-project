@@ -39,7 +39,7 @@ class App extends VirtualDom{
   }
 
   public sendMessage(): void {
-    console.log($.default);
+    console.log($.default.componentsInstances);
   }
 }
 

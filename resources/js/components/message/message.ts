@@ -10,7 +10,7 @@ class Message extends VirtualDom {
   constructor(props: Object) {
     super();
 
-    //define the component name  
+    //define the component name
     this.name = 'message';
 
     //register component dependencie
@@ -19,10 +19,11 @@ class Message extends VirtualDom {
     let classList: string = '';
     if(props['from'] && props['from'].value === 'sent') {
       classList = 'message--alignt-right is-primary'
-    } 
+    }
+
     //setting the template
     this.setTemplate(`
-      <article class="message ${classList}">
+      <article vd-click="callModal" class="message ${classList}">
         <mini-user></mini-user>
         <div class="message-body">
           <p>From: <strong>${props['author'].value}</strong></p>
@@ -30,6 +31,10 @@ class Message extends VirtualDom {
         </div>
       </article>`
     );
+  }
+
+  public callModal(): void {
+    alert('calling all users');
   }
 }
 
