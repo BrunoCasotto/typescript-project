@@ -173,28 +173,12 @@ class VirtualDom {
    */
   private resolveListeners(): void {
     try {
-      //search all elements click on template
-      let elementsClick: NodeListOf<Element> = this.template.querySelectorAll('[vd-click]');
-      let elementsChange: NodeListOf<Element> = this.template.querySelectorAll('[vd-change]');
-      let hoverElements: NodeListOf<Element> = this.template.querySelectorAll('[vd-hover]');
-
       let i: number = 0;
-      //resolve click listeners
-      i = elementsClick.length;
-      while(i--) {
-        this.resolveClick(elementsClick[i])
-      }
+      let eventTypes : Array<string> = ['click', 'change', 'hover', 'mousedown'];
+      i = eventTypes.length;
 
-      //resolve Change listeners
-      i = elementsChange.length;
       while(i--) {
-        this.resolveClick(elementsChange[i])
-      }
-
-      //resolve Change listeners
-      i = hoverElements.length;
-      while(i--) {
-        this.resolveHover(hoverElements[i])
+        this.searchListenersCallers(eventTypes[i]);
       }
     } catch (error) {
       console.error('virtualDom.resolveListeners', error);
@@ -202,42 +186,33 @@ class VirtualDom {
   }
 
   /**
-   * function to define a listener to an element
-   * @param element element where the listerner will be insert
+   * method to search all listeners callers into the template
+   * @param listener type of listener to search
    */
-  private resolveClick(element: Element) {
-    let functionListener: string;
-    //getting function to listener name
-    functionListener = element.getAttribute('vd-click');
-    //add event listener on element
-    element.addEventListener('click', this[functionListener]);
-  }
+  searchListenersCallers(listener: string) {
+    let i: number = 0;
+    //get all elements that contains the especific caller
+    let elements: NodeListOf<Element> = this.template.querySelectorAll(`[vd-${listener}]`);
 
-    /**
-   * function to define a listener to an element
-   * @param element element where the listerner will be insert
-   */
-  private resolveChange(element: Element) {
-    let functionListener: string;
-    //getting function to listener name
-    functionListener = element.getAttribute('vd-change');
-    //add event listener on element
-    element.addEventListener('change', this[functionListener]);
+    i = elements.length;
+    while(i--) {
+      this.resolveListener(elements[i], listener)
+    }
   }
 
   /**
    * function to define a listener to an element
+   * @param listenerType type of listener to check and add
    * @param element element where the listerner will be insert
    */
-  private resolveHover(element: Element) {
+  private resolveListener(element: Element, listenerType: string) {
     let functionListener: string;
     //getting function to listener name
-    functionListener = element.getAttribute('vd-hover');
+    functionListener = element.getAttribute(`vd-${listenerType}`);
+    console.log(`vd-${listenerType}`)
     //add event listener on element
-    element.addEventListener('hover', this[functionListener]);
+    element.addEventListener(listenerType, this[functionListener]);
   }
-
-  //TODO ===========================
 }
 
 export default VirtualDom;
