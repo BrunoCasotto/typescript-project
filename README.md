@@ -22,7 +22,7 @@ Como podemos ver o core da aplicação está dentro de virtualDom.ts;
 Na pasta de componentes é onde os componentes criados (que extendem *virtualDom.ts*) ficam;
 Na pasta de scss é onde estão os arquivos de estilo;
 Na pasta vendor estão as chamadas a libs externas;
-O arquivo index é o arquivo que chama o componente *root* da aplicação, essa classe faz a chamada das outras classes e monte o template inicial da aplicação para ser inserido no index.html.
+O arquivo index é o arquivo que chama o componente *root* da aplicação, essa classe faz a chamada das outras classes e monta o template inicial da aplicação para ser inserido no index.html.
 
 ## Iniciar o componente root
 A seguir um exemplo do componente root da aplicação com um template básico:
