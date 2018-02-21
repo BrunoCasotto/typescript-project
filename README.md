@@ -17,7 +17,7 @@ A hierarquia do projeto basicamente consiste em:
 			 *virtualDom.ts*
 	- scss
 		*main.scss*
-	- vendor 
+	- vendor
 		*externalDependencies.ts*
 - index.ts
 - index.html
@@ -28,7 +28,7 @@ Na pasta de scss é onde estão os arquivos de estilo;
 Na pasta vendor estão as chamadas a libs externas;
 O arquivo index é o arquivo que chama o componente *root* da aplicação, essa classe faz a chamada das outras classes e monta o template inicial da aplicação para ser inserido no index.html.
 
-## <a name=“section1”></a>Iniciar o componente root
+## <section id="section1"> Iniciar o componente root
 
 A seguir um exemplo do componente root da aplicação com um template básico:
 
@@ -63,5 +63,5 @@ A seguir um exemplo do componente root da aplicação com um template básico:
     }
 
     export default new App();
+</section>
 
-## Iniciar o componente root
