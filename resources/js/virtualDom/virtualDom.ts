@@ -15,6 +15,8 @@ class VirtualDom {
   private components: Array<any> = [];
   //components dependencies
   protected componentsInstances: Array<Object> = [];
+  //state of component
+  protected data: Object = {};
 
     /**
      * @param root true if is the first component
