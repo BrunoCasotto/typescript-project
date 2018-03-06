@@ -6,7 +6,8 @@
   "scripts": {
     "start:dev": "concurrently \"npm run watch\" \"lite-server\"",
     "watch": "webpack --config webpack.config.js --watch",
-    "start": "lite-server"
+    "start": "lite-server",
+    "test": "mocha -r ts-node/register resources/js/**/*.test.ts"
   },
   "author": "Bruno casotto",
   "license": "ISC",
@@ -22,5 +23,12 @@
     "ts-loader": "^3.4.0",
     "typescript": "^2.7.1",
     "webpack": "^3.10.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.2",
+    "@types/mocha": "^2.2.48",
+    "chai": "^4.1.2",
+    "mocha": "^5.0.2",
+    "ts-node": "^5.0.1"
   }
 }
