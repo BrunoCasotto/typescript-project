@@ -60,8 +60,12 @@ class VirtualDom {
    * Function to render all child nodes of template into the html place
    * @param htmlPLace place where the template should be render
    */
-  private renderChildNodes(htmlPLace:Element): void {
+  private renderChildNodes(htmlPLace:Element = null): void {
     try {
+      if(!htmlPLace) {
+        return;
+      }
+
       //getting all child nodes
       let index = this.template.childNodes.length;
       let childNode;

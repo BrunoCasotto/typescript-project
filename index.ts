@@ -38,7 +38,7 @@ class App extends VirtualDom{
     super.render();
 
     let messageInstance = new Message({author: "BrunoCasotto", message: "message here"});
-    // console.log(messageInstance.render())
+    console.log(messageInstance.render())
   }
 
   public sendMessage(): void {
