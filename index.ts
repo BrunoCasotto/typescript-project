@@ -25,7 +25,7 @@ class App extends VirtualDom{
           <calling></calling>
           <message author="Maria jose" message="mensagem ainda maior que a ultima que era grande"></message>
         </div>
-        <div class="chat__content__form">
+        <div vd-hover="sendMessage" class="chat__content__form">
             <input class="input is-primary" type="text" placeholder="Type your message">
             <button vd-click="sendMessage" id="send-button" class="button is-primary chat__content__form__button">
               Send
@@ -36,6 +36,9 @@ class App extends VirtualDom{
 
     //initial render
     super.render();
+
+    let messageInstance = new Message({author: "BrunoCasotto", message: "message here"});
+    // console.log(messageInstance.render())
   }
 
   public sendMessage(): void {

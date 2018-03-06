@@ -17,7 +17,7 @@ class Message extends VirtualDom {
     this.registerComponent({name: 'mini-user', component: MiniUser });
 
     let classList: string = '';
-    if(props['from'] && props['from'].value === 'sent') {
+    if(props['from'] && props['value'] === 'sent') {
       classList = 'message--alignt-right is-primary'
     }
 
@@ -26,8 +26,8 @@ class Message extends VirtualDom {
       <article vd-click="callModal" class="message ${classList}">
         <mini-user></mini-user>
         <div class="message-body">
-          <p>From: <strong>${props['author'].value}</strong></p>
-          ${props['message'].value}
+          <p>From: <strong>${props['author']}</strong></p>
+          ${props['message']}
         </div>
       </article>`
     );

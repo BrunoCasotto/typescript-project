@@ -17,13 +17,16 @@ class VirtualDom {
   protected componentsInstances: Array<Object> = [];
   //state of component
   protected data: Object = {};
+  //state of component
+  protected props: Object = {};
 
-    /**
-     * @param root true if is the first component
-     */
-    constructor(root=false) {
-      this.root = root;
-    }
+  /**
+   * @param root true if is the first component
+   */
+  constructor(root = false, props: Object = {}) {
+    this.root = root;
+    this.props = props;
+  }
 
   /**
    * function to render element into especific html locale
@@ -47,7 +50,7 @@ class VirtualDom {
         this.renderChildNodes(document.querySelector(this.name))
       }
 
-      return template;
+      return this.template;
     } catch (error) {
       console.error('virtualDom.render', error);
     }
@@ -90,7 +93,7 @@ class VirtualDom {
       //looping the compnent locales
       i = componentLocales.length;
       while(i--) {
-        props = componentLocales[i].attributes;
+        props = this.resolveProps(componentLocales[i]);
         componentInstance = new dependency.component(props);
         componentInstance.render(this.template);
         //register the component instance
@@ -99,6 +102,26 @@ class VirtualDom {
     });
 
     return this.template;
+  }
+
+  /**
+   * This function convert the namedNodeMap to Object
+   * @param component - the component with props
+   */
+  private resolveProps(component: Element) {
+    try {
+      let i:number = 0;
+      let props:Object = {}
+      let attributes:any = component.attributes
+      i = attributes.length;
+      while(i--) {
+        props[attributes[i].name] = attributes[i].value
+      }
+
+      return props;
+    } catch (error) {
+      console.error('virtualDom.resolveProps', error);
+    }
   }
 
   /**
@@ -167,18 +190,15 @@ class VirtualDom {
     });
   }
 
-  //TODO ===========================
-  //Refactor the resolve listeners later to make a cleaner code.
-
   /**
    * this function resolve the listeners on the template like vd-click or vd-change
    */
   private resolveListeners(): void {
     try {
       let i: number = 0;
+      //type of events
       let eventTypes : Array<string> = ['click', 'change', 'hover', 'mousedown'];
       i = eventTypes.length;
-
       while(i--) {
         this.searchListenersCallers(eventTypes[i]);
       }
@@ -195,7 +215,6 @@ class VirtualDom {
     let i: number = 0;
     //get all elements that contains the especific caller
     let elements: NodeListOf<Element> = this.template.querySelectorAll(`[vd-${listener}]`);
-
     i = elements.length;
     while(i--) {
       this.resolveListener(elements[i], listener)
@@ -211,7 +230,6 @@ class VirtualDom {
     let functionListener: string;
     //getting function to listener name
     functionListener = element.getAttribute(`vd-${listenerType}`);
-    console.log(`vd-${listenerType}`)
     //add event listener on element
     element.addEventListener(listenerType, this[functionListener]);
   }
