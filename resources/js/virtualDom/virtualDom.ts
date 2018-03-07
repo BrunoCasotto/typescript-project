@@ -186,7 +186,7 @@ class VirtualDom {
    * this function returns a instance list of a determinated component
    * @param component Name of component to search
    */
-  protected getInstanceList(component: string = '') : Array<Object> {
+  public getInstanceList(component: string = '') : Array<Object> {
     return this.componentsInstances.filter((instance)=>{
       if(instance['name'] === component) {
         return instance;

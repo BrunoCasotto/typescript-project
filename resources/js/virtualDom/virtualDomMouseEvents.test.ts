@@ -5,6 +5,20 @@ import 'mocha';
 import VirtualDom from './virtualDom';
 
 document.body.innerHTML = `<div id="root"></div>`;
+
+/**
+ * test sub class
+ */
+class TestSubComponent extends VirtualDom {
+  constructor(props: Object) {
+    super();
+    this.name =  'sub-component';
+    this.setTemplate(`
+      <h1 class="sub-component__title">sub component</h1>
+    `);
+  }
+}
+
 /**
  * test class
  */
@@ -12,6 +26,7 @@ class TestComponent extends VirtualDom {
   constructor(props: Object) {
     super(true, props);
     this.name ='#root';
+    this.registerComponent({name: 'sub-component', component: TestSubComponent });
     this.setTemplate(`
       <p class="message">old text!</p>
 
@@ -29,7 +44,9 @@ class TestComponent extends VirtualDom {
 
       <div id="hide-text-mouseout" vd-mouseout="showText"> show text </div>
 
-      <div id="mousein"
+      <sub-component></sub-component>
+      <sub-component></sub-component>
+      <sub-component></sub-component>
     `);
   }
   /**
@@ -62,12 +79,18 @@ class TestComponent extends VirtualDom {
 }
 
 let _component:TestComponent = null;
-
+let _componentsInstances:Array<object> = [];
 /**
  * Instance the test component
  */
 before(() => {
   _component = new TestComponent({});
+});
+
+/**
+ * For each test render the component again
+ */
+beforeEach(() => {
   _component.render()
 });
 
@@ -125,3 +148,27 @@ describe('MouseEvents.VirtualDom events test', () => {
     expect(document.querySelector('.message-hide').classList.item(0)).to.be.equal('message-hide');
   });
 });
+
+describe('MouseEvents.VirtualDom events on sub component', () => {
+    it('should have three components instances', () => {
+      expect(_component.getInstanceList('sub-component').length).to.be.equal(3);
+    });
+
+    it('the instances should be sub components instances', () => {
+      let instances:Array<object> = _component.getInstanceList('sub-component');
+      let i:number = _component.getInstanceList('sub-component').length;
+      while(i--) {
+        expect(instances[i]['instance'] instanceof TestSubComponent).to.be.equal(true);
+      }
+    });
+
+    it('should be renderized the sub components content', () => {
+      let componentsElements:NodeListOf<Element> = document.querySelectorAll('.sub-component__title');
+      expect(componentsElements.length).to.be.equal(3);
+
+      let i:number = componentsElements;
+      while(i--) {
+        expect(componentsElements[i].innerHTML).to.be.equal('sub component');
+      }
+    });
+})
