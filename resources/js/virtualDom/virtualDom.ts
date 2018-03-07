@@ -6,11 +6,11 @@ class VirtualDom {
   //content of component
   private template: Element;
   //prop to know if the component is the root component
-  private root: Boolean;
+  public root: Boolean;
   //prop that represent virtual dom
   private vdom: Element;
   //name of component call
-  protected name:string;
+  public name:string;
   //components dependencies
   private components: Array<any> = [];
   //components dependencies
@@ -132,7 +132,7 @@ class VirtualDom {
    * function to set the current element to process
    * @param html html snippet to manipulate
    */
-  public setTemplate( html:string ): void {
+  protected setTemplate( html:string ): void {
     try {
       //create temp div
       let templateTemp: Element = document.createElement('div');
@@ -174,7 +174,7 @@ class VirtualDom {
   /**
    * function to register component dependencies
    */
-  public registerComponent(component:Object): void {
+  protected registerComponent(component:Object): void {
     try {
       this.components.push(component);
     } catch (error) {
@@ -186,12 +186,23 @@ class VirtualDom {
    * this function returns a instance list of a determinated component
    * @param component Name of component to search
    */
-  protected getInstanceList(component: string) : Array<Object> {
+  protected getInstanceList(component: string = '') : Array<Object> {
     return this.componentsInstances.filter((instance)=>{
       if(instance['name'] === component) {
         return instance;
       }
     });
+  }
+
+  /**
+   * method to return all componentes instances of component
+   */
+  public getComponentsInstances() : Array<Object> {
+    try {
+      return this.componentsInstances
+    } catch (error) {
+      console.error('virtualDom.getComponentsInstances', error);
+    }
   }
 
   /**
@@ -215,7 +226,7 @@ class VirtualDom {
    * method to search all listeners callers into the template
    * @param listener type of listener to search
    */
-  searchListenersCallers(listener: string) {
+  protected searchListenersCallers(listener: string) {
     let i: number = 0;
     //get all elements that contains the especific caller
     let elements: NodeListOf<Element> = this.template.querySelectorAll(`[vd-${listener}]`);
