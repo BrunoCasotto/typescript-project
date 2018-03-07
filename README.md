@@ -110,17 +110,46 @@ Depois disso o core do projeto se encarrega de renderizar os componentes em seus
 <br>
 Componentes que não são roots também podem chamar outros componentes!
 
+## Passagem de props para sub components
+Cada componente pode receber de seu pai determinados dados, esses dados recebidos são denominados props.
+A seguir um exemplo de um componente sendo chamado com props sendo passados para ele.
+``` sh
+<message from="sent" author="Bruno Casotto" message="message"></message>
+```
+No exemplo acima temos o exemplo de uma chamada de um componente passando as props from e author.
+No codigo a seguir um exemplo de como podemos tratar os dados recebidos por props de outro componente.
+``` sh
+constructor(props:  Object) {
+super();
+this.name  =  'message';
+
+let  classList:  string  =  '';
+if(props['from'] &&  props['value'] ===  'sent') {
+	classList  =  'message--alignt-right is-primary'
+}
+
+this.setTemplate(`
+	<article vd-click="callModal" class="message ${classList}">
+		<div class="message-body">
+			<p>From: <strong> ${props['author']} </strong></p>
+			${props['message']}
+		</div>
+	</article>`
+);
+}
+```
+Nesse caso, utilizamos a propriedade from e verificamos se ela é uma string com o valor sent, caso seja alteramos outra váriavel que será a classe do meu template. Já a outra prop message inserimos dentro do template como o corpo da mensagem.
 ## Definir eventos
 É possível atribuir eventos de clique, hover, mousedown entre outros aos elementos de forma simple.
 Primeiramente devemos criar uma função que o evento irá disparar como no exemplo a seguir:
-``` sh 
+``` sh
 public sendMessage(): void {
   //code here
 }
 ```
 Para definir qual evento e qual função esse evento irá chamar é necessário incluir a tag vd-${nomedoevento}.
 Por exemplo para o evento de clique como no trecho de código a seguir:
-``` sh 
+``` sh
  <button vd-click="sendMessage" class="basic-form__button"> Send</button>
 ```
 Lembrando inserir um evento de clique na chamada de um componente não é válido. Cada componente trata de lidar com seus elementos e seus respectivos eventos.

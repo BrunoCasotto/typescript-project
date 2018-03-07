@@ -166,7 +166,7 @@ describe('MouseEvents.VirtualDom events on sub component', () => {
       let componentsElements:NodeListOf<Element> = document.querySelectorAll('.sub-component__title');
       expect(componentsElements.length).to.be.equal(3);
 
-      let i:number = componentsElements;
+      let i:number = componentsElements.length;
       while(i--) {
         expect(componentsElements[i].innerHTML).to.be.equal('sub component');
       }
