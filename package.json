@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "concurrently \"npm run watch\" \"lite-server\"",
+    "start:dev": "concurrently \"npm run watch\" \"lite-server\" \"npm run test\"",
     "watch": "webpack --config webpack.config.js --watch",
     "start": "lite-server",
     "test": "mocha -r ts-node/register resources/js/**/*.test.ts"

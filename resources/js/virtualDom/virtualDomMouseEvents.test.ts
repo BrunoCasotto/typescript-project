@@ -14,7 +14,12 @@ class TestComponent extends VirtualDom {
     this.name ='#root';
     this.setTemplate(`
       <p class="message">old text!</p>
+
       <p class="message-hide hide">old text!</p>
+
+      <p class="message-input"></p>
+
+      <input v-change="inputText" id="input-text"></input>
 
       <button id="change-text-btn" vd-click="changeMessage">change message </button>
 
@@ -23,7 +28,15 @@ class TestComponent extends VirtualDom {
       <div id="hide-text-hover" vd-hover="hideText"> hide text </div>
 
       <div id="hide-text-mouseout" vd-mouseout="showText"> show text </div>
+
+      <div id="mousein"
     `);
+  }
+  /**
+   * function that get the text input and write on p element
+   */
+  public inputText() {
+    document.querySelector('.message-input').innerHTML = 'changed'
   }
 
   /**
@@ -58,7 +71,7 @@ before(() => {
   _component.render()
 });
 
-describe('Events.VirtualDom basic object', () => {
+describe('MouseEvents.VirtualDom basic object', () => {
   it('should be a component test instance', () => {
     expect(_component instanceof TestComponent).to.equal(true);
   });
@@ -68,7 +81,7 @@ describe('Events.VirtualDom basic object', () => {
   });
 });
 
-describe('Events.VirtualDom events test', () => {
+describe('MouseEvents.VirtualDom events test', () => {
   it('should have a component title as a declarated', () => {
     expect(document.querySelector('.message').innerHTML).to.be.equal('old text!');
   });
@@ -89,7 +102,7 @@ describe('Events.VirtualDom events test', () => {
     expect(document.querySelector('.message').innerHTML).to.be.equal('new text!');
   });
 
-  it('When the hover occur should be changed added a hide clas in text element', () => {
+  it('When the hover occur should be added a hide class in text element', () => {
     expect(document.querySelector('.message').classList.length).to.be.equal(1);
 
     let event:MouseEvent = new MouseEvent('hover', {});
@@ -100,7 +113,7 @@ describe('Events.VirtualDom events test', () => {
     expect(document.querySelector('.message').classList.item(1)).to.be.equal('hide');
   });
 
-  it('When the mouseout occur should be changed added a hide clas in text element', () => {
+  it('When the mouseout occur should added a hide clas in text element', () => {
     expect(document.querySelector('.message-hide').classList.length).to.be.equal(2);
 
     let event:MouseEvent = new MouseEvent('mouseout', {});
