@@ -14,12 +14,15 @@ class TestComponent extends VirtualDom {
     this.name ='#root';
     this.setTemplate(`
       <p class="message">old text!</p>
+      <p class="message-hide hide">old text!</p>
 
       <button id="change-text-btn" vd-click="changeMessage">change message </button>
 
-      <div id="hide-text-hover" vd-hover="hideText">
-        hide text
-      </div>
+      <button id="change-text-btn-mousedown" vd-mousedown="changeMessage">change message </button>
+
+      <div id="hide-text-hover" vd-hover="hideText"> hide text </div>
+
+      <div id="hide-text-mouseout" vd-mouseout="showText"> show text </div>
     `);
   }
 
@@ -35,6 +38,13 @@ class TestComponent extends VirtualDom {
    */
   public hideText() {
     document.querySelector('.message').classList.add('hide');
+  }
+
+    /**
+   * function to show the message text
+   */
+  public showText() {
+    document.querySelector('.message-hide').classList.remove('hide');
   }
 }
 
@@ -71,6 +81,14 @@ describe('Events.VirtualDom events test', () => {
     expect(document.querySelector('.message').innerHTML).to.be.equal('new text!');
   });
 
+  it('When the mousedown occur should be changed the text message', () => {
+    let event:MouseEvent = new MouseEvent('mousedown', {});
+    let btn:Element = document.querySelector('#change-text-btn-mousedown');
+    btn.dispatchEvent(event);
+
+    expect(document.querySelector('.message').innerHTML).to.be.equal('new text!');
+  });
+
   it('When the hover occur should be changed added a hide clas in text element', () => {
     expect(document.querySelector('.message').classList.length).to.be.equal(1);
 
@@ -80,5 +98,17 @@ describe('Events.VirtualDom events test', () => {
     elementHover.dispatchEvent(event);
     expect(document.querySelector('.message').classList.length).to.be.equal(2);
     expect(document.querySelector('.message').classList.item(1)).to.be.equal('hide');
+  });
+
+  it('When the mouseout occur should be changed added a hide clas in text element', () => {
+    expect(document.querySelector('.message-hide').classList.length).to.be.equal(2);
+
+    let event:MouseEvent = new MouseEvent('mouseout', {});
+
+    let elementMouseout:Element = document.querySelector('#hide-text-mouseout');
+    elementMouseout.dispatchEvent(event);
+
+    expect(document.querySelector('.message-hide').classList.length).to.be.equal(1);
+    expect(document.querySelector('.message-hide').classList.item(0)).to.be.equal('message-hide');
   });
 });

@@ -212,7 +212,7 @@ class VirtualDom {
     try {
       let i: number = 0;
       //type of events
-      let eventTypes : Array<string> = ['click', 'change', 'hover', 'mousedown'];
+      let eventTypes : Array<string> = ['click', 'change', 'hover', 'mousedown', 'mouseout'];
       i = eventTypes.length;
       while(i--) {
         this.searchListenersCallers(eventTypes[i]);
