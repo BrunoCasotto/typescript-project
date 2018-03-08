@@ -12,9 +12,7 @@ class MiniUser extends VirtualDom {
     this.name =  'mini-user';
 
     //setting the template
-    this.setTemplate(`
-      <p>mini-user</p>  
-    `);
+    this.setTemplate(``);
   }
 }
 
