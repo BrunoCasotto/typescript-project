@@ -1,5 +1,6 @@
 import VirtualDom from './../../virtualDom/virtualDom';
-import MiniUser from './../user/miniUser';
+import Reply from './reply';
+const $ = this;
 
 /**
  * Class to create message element
@@ -9,32 +10,36 @@ class Message extends VirtualDom {
   //constructor with components props
   constructor(props: Object) {
     super();
-
-    //define the component name
     this.name = 'message';
-
-    //register component dependencie
-    this.registerComponent({name: 'mini-user', component: MiniUser });
+    this.registerComponent({name: 'reply', component: Reply });
 
     let classList: string = '';
     if(props['from'] && props['value'] === 'sent') {
       classList = 'message--alignt-right is-primary'
     }
 
-    //setting the template
     this.setTemplate(`
       <article vd-click="callModal" class="message ${classList}">
         <mini-user></mini-user>
         <div class="message-body">
           <p>From: <strong>${props['author']}</strong></p>
           ${props['message']}
+          <div class="message-body__reply is-invisible">
+            <reply></reply>
+          </div>
+          <button vd-click="toggleReply" class="button is-primary chat__content__form__button">
+            reply
+          </button>
         </div>
       </article>`
     );
+
+    super.getComponentsInstances = super.getComponentsInstances.bind(this);
   }
 
-  public callModal(): void {
-    alert('calling all users');
+  public toggleReply() {
+    console.log(super.getComponentsInstances())
+    document.querySelector('.message-body__reply').classList.toggle('is-invisible')
   }
 }
 

@@ -14,8 +14,19 @@ class TestSubComponent extends VirtualDom {
     super();
     this.name =  'sub-component';
     this.setTemplate(`
-      <h1 class="sub-component__title">sub component</h1>
+      <div>
+        <h1 id="change-title-btn"class="sub-component__title">sub component</h1>
+        <button id="change-title-btn" vd-click="changeMessage"> change message </div>
+      </div>
     `);
+  }
+
+
+  /**
+   * function to change the message
+   */
+  public changeMessage() {
+    document.querySelector('.sub-component__title').innerHTML = 'new text!'
   }
 }
 
@@ -164,11 +175,20 @@ describe('MouseEvents.VirtualDom events on sub component', () => {
 
     it('should be renderized the sub components content', () => {
       let componentsElements:NodeListOf<Element> = document.querySelectorAll('.sub-component__title');
+
       expect(componentsElements.length).to.be.equal(3);
 
       let i:number = componentsElements.length;
       while(i--) {
         expect(componentsElements[i].innerHTML).to.be.equal('sub component');
       }
+    });
+
+    it('When the click occur should be changed the title message', () => {
+      let event:MouseEvent = new MouseEvent('click', {});
+      let btn:Element = document.querySelector('#change-title-btn');
+      btn.dispatchEvent(event);
+
+      expect(document.querySelector('.sub-component__title').innerHTML).to.be.equal('new text!');
     });
 })

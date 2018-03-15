@@ -1,7 +1,6 @@
 import VirtualDom from './resources/js/virtualDom/virtualDom';
 import Message from './resources/js/components/message/message';
 import Calling from './resources/js/components/calling/calling';
-const $ = this;
 class App extends VirtualDom{
 
   constructor() {
@@ -37,12 +36,11 @@ class App extends VirtualDom{
     //initial render
     super.render();
 
-    let messageInstance = new Message({author: "BrunoCasotto", message: "message here"});
-    console.log(messageInstance.render())
+    super.getComponentsInstances = super.getComponentsInstances.bind(this);
   }
 
   public sendMessage(): void {
-    console.log($.default.componentsInstances);
+    console.log(super.getComponentsInstances())
   }
 }
 

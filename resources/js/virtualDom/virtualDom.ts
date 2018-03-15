@@ -99,7 +99,8 @@ class VirtualDom {
       while(i--) {
         props = this.resolveProps(componentLocales[i]);
         componentInstance = new dependency.component(props);
-        componentInstance.render(this.template);
+        let vdom:Element = componentInstance.render(this.template);
+        componentInstance.setVdom(vdom);
         //register the component instance
         this.componentsInstances.push({ name:dependency.name, instance: componentInstance});
       }
@@ -247,6 +248,14 @@ class VirtualDom {
     functionListener = element.getAttribute(`vd-${listenerType}`);
     //add event listener on element
     element.addEventListener(listenerType, this[functionListener]);
+  }
+
+  /**
+   * Function to set the vdom after render
+   * @param template template of component instance
+   */
+  private setVdom(template: Element) {
+    this.vdom = template;
   }
 }
 
