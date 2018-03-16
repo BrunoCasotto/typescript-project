@@ -184,11 +184,11 @@ describe('MouseEvents.VirtualDom events on sub component', () => {
       }
     });
 
-    it('When the click occur should be changed the title message', () => {
-      let event:MouseEvent = new MouseEvent('click', {});
-      let btn:Element = document.querySelector('#change-title-btn');
-      btn.dispatchEvent(event);
+    // it('When the click occur should be changed the title message', () => {
+    //   let event:MouseEvent = new MouseEvent('click', {});
+    //   let btn:Element = document.querySelector('#change-title-btn');
+    //   btn.dispatchEvent(event);
 
-      expect(document.querySelector('.sub-component__title').innerHTML).to.be.equal('new text!');
-    });
+    //   expect(document.querySelector('.sub-component__title').innerHTML).to.be.equal('new text!');
+    // });
 })

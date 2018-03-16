@@ -36,11 +36,11 @@ class App extends VirtualDom{
     //initial render
     super.render();
 
-    super.getComponentsInstances = super.getComponentsInstances.bind(this);
+    super.getComponentInstances = super.getComponentInstances.bind(this);
   }
 
   public sendMessage(): void {
-    console.log(super.getComponentsInstances())
+    console.log(super.getComponentInstances())
   }
 }
 

@@ -50,7 +50,7 @@ describe('Basic.VirtualDOm basic object', () => {
   })
 
   it('should be a component test name', () => {
-    expect(_component.getComponentsInstances().length).to.equal(0);
+    expect(_component.getComponentInstances().length).to.equal(0);
   });
 });
 

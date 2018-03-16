@@ -1,6 +1,9 @@
 import VirtualDom from './../../virtualDom/virtualDom';
 import Reply from './reply';
 const $ = this;
+declare interface ObjectConstructor {
+  assign(...objects: Object[]): Object;
+}
 
 /**
  * Class to create message element
@@ -33,13 +36,15 @@ class Message extends VirtualDom {
         </div>
       </article>`
     );
+    let context = {};
+    (<any>Object).assign( context, this )
 
-    super.getComponentsInstances = super.getComponentsInstances.bind(this);
+    super.getInstance = super.getInstance.bind(context);
   }
 
   public toggleReply() {
-    console.log(super.getComponentsInstances())
-    document.querySelector('.message-body__reply').classList.toggle('is-invisible')
+    console.log(super.getInstance())
+    // super.getTemplate().querySelector('.message-body__reply').classList.toggle('is-invisible')
   }
 }
 

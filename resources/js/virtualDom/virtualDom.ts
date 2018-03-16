@@ -4,17 +4,15 @@
  */
 class VirtualDom {
   //content of component
-  private template: Element;
+  protected template: Element;
   //prop to know if the component is the root component
   public root: Boolean;
-  //prop that represent virtual dom
-  private vdom: Element;
   //name of component call
   public name:string;
   //components dependencies
   private components: Array<any> = [];
   //components dependencies
-  protected componentsInstances: Array<Object> = [];
+  protected componentInstances: Array<Object> = [];
   //state of component
   protected data: Object = {};
   //state of component
@@ -26,6 +24,11 @@ class VirtualDom {
   constructor(root = false, props: Object = {}) {
     this.root = root;
     this.props = props;
+
+    //bind of exposes functions to children
+    this.getTemplate = this.getTemplate.bind(this);
+    this.getInstanceList = this.getInstanceList.bind(this);
+    this.getComponentInstances = this.getComponentInstances.bind(this);
   }
 
   /**
@@ -100,9 +103,8 @@ class VirtualDom {
         props = this.resolveProps(componentLocales[i]);
         componentInstance = new dependency.component(props);
         let vdom:Element = componentInstance.render(this.template);
-        componentInstance.setVdom(vdom);
         //register the component instance
-        this.componentsInstances.push({ name:dependency.name, instance: componentInstance});
+        this.componentInstances.push({ name:dependency.name, instance: componentInstance});
       }
     });
 
@@ -184,29 +186,6 @@ class VirtualDom {
   }
 
   /**
-   * this function returns a instance list of a determinated component
-   * @param component Name of component to search
-   */
-  public getInstanceList(component: string = '') : Array<Object> {
-    return this.componentsInstances.filter((instance)=>{
-      if(instance['name'] === component) {
-        return instance;
-      }
-    });
-  }
-
-  /**
-   * method to return all componentes instances of component
-   */
-  public getComponentsInstances() : Array<Object> {
-    try {
-      return this.componentsInstances
-    } catch (error) {
-      console.error('virtualDom.getComponentsInstances', error);
-    }
-  }
-
-  /**
    * this function resolve the listeners on the template like vd-click or vd-change
    */
   private resolveListeners(): void {
@@ -228,12 +207,16 @@ class VirtualDom {
    * @param listener type of listener to search
    */
   protected searchListenersCallers(listener: string) {
-    let i: number = 0;
-    //get all elements that contains the especific caller
-    let elements: NodeListOf<Element> = this.template.querySelectorAll(`[vd-${listener}]`);
-    i = elements.length;
-    while(i--) {
-      this.resolveListener(elements[i], listener)
+    try {
+      let i: number = 0;
+      //get all elements that contains the especific caller
+      let elements: NodeListOf<Element> = this.template.querySelectorAll(`[vd-${listener}]`);
+      i = elements.length;
+      while(i--) {
+        this.resolveListener(elements[i], listener)
+      }
+    } catch (error) {
+      console.error('virtualDom.searchListenersCallers', error);
     }
   }
 
@@ -243,19 +226,53 @@ class VirtualDom {
    * @param element element where the listerner will be insert
    */
   private resolveListener(element: Element, listenerType: string) {
-    let functionListener: string;
-    //getting function to listener name
-    functionListener = element.getAttribute(`vd-${listenerType}`);
-    //add event listener on element
-    element.addEventListener(listenerType, this[functionListener]);
+    try {
+      let functionListener: string;
+      //getting function to listener name
+      functionListener = element.getAttribute(`vd-${listenerType}`);
+      //add event listener on element
+      element.addEventListener(listenerType, this[functionListener]);
+    } catch (error) {
+      console.error('virtualDom.resolveListener', error);
+    }
   }
 
   /**
-   * Function to set the vdom after render
-   * @param template template of component instance
+   * function to return the current element
    */
-  private setVdom(template: Element) {
-    this.vdom = template;
+  protected getTemplate(): Element {
+    try {
+      return this.template;
+    } catch (error) {
+      console.error('virtualDom.resolveListeners', error);
+    }
+  }
+
+  /**
+   * this function returns a instance list of a determinated component
+   * @param component Name of component to search
+   */
+  public getInstanceList(component: string = '') : Array<Object> {
+    return this.componentInstances.filter((instance)=>{
+      if(instance['name'] === component) {
+        return instance;
+      }
+    });
+  }
+
+  /**
+   * method to return all componentes instances of component
+   */
+  public getComponentInstances() : Array<Object> {
+    try {
+      return this.componentInstances
+    } catch (error) {
+      console.error('virtualDom.getComponentInstances', error);
+    }
+  }
+
+  protected getInstance(): object {
+    return this;
   }
 }
 
