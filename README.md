@@ -153,4 +153,3 @@ Por exemplo para o evento de clique como no trecho de código a seguir:
  <button vd-click="sendMessage" class="basic-form__button"> Send</button>
 ```
 Lembrando inserir um evento de clique na chamada de um componente não é válido. Cada componente trata de lidar com seus elementos e seus respectivos eventos.
-**Projeto em desenvolvimento (documentação também)!**
